@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Library — Velum Institute</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .lib-hero {
+    padding: 150px 0 60px;
+    border-bottom: 1px solid var(--line);
+  }
+  .lib-title { font-family: var(--serif); font-size: clamp(44px, 6vw, 84px); font-weight: 400; margin: 0 0 20px; line-height: 1; }
+  .lib-sub { color: var(--ivory-dim); font-size: 16px; max-width: 46ch; }
+
+  .search-row {
+    margin-top: 44px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--ivory);
+    font-family: var(--serif);
+    font-size: clamp(20px, 3vw, 30px);
+    outline: none;
+  }
+  .search-input::placeholder { color: var(--ivory-dim); }
+
+  .search-count { font-size: 13px; color: var(--ivory-dim); white-space: nowrap; }
+
+  .lib-body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 56px;
+    padding: 56px 0 120px;
+  }
+
+  .filters { position: sticky; top: 100px; align-self: start; }
+  .filter-group { margin-bottom: 36px; }
+  .filter-group h4 { font-size: 12px; letter-spacing: 0.05em; color: var(--ivory-dim); font-weight: 500; margin: 0 0 14px; }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ivory-dim);
+    padding: 6px 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  .filter-option:hover { color: var(--ivory); }
+  .filter-option.active { color: var(--cobalt-bright); }
+  .filter-option .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--line);
+    flex-shrink: 0;
+  }
+  .filter-option.active .dot { background: var(--cobalt-bright); }
+
+  .clear-filters { font-size: 12px; color: var(--ivory-dim); margin-top: 8px; background:none; border:none; cursor:pointer; text-decoration: underline; padding: 0; }
+  .clear-filters:hover { color: var(--ivory); }
+
+  .results-list .paper-row {
+    grid-template-columns: 160px 1fr;
+    align-items: start;
+  }
+  .results-list .paper-row-desc {
+    display: block;
+    color: var(--ivory-dim);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 10px 0 0;
+    grid-column: 2;
+  }
+  .results-list .paper-row-foot {
+    grid-column: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-top: 14px;
+  }
+  .results-list .paper-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+  }
+  .results-list .paper-row-meta { grid-column: 1; }
+  .results-list .paper-row-title { grid-column: 2; }
+
+  @media (max-width: 860px) {
+    .lib-body { grid-template-columns: 1fr; }
+    .filters { position: static; }
+    .results-list .paper-row,
+    .results-list .paper-row-desc,
+    .results-list .paper-row-foot { grid-column: 1; }
+    .results-list .paper-row { grid-template-columns: 1fr; }
+  }
+
+  .empty-state { padding: 60px 0; color: var(--ivory-dim); }
+  .empty-state strong { color: var(--ivory); display: block; margin-bottom: 8px; font-family: var(--serif); font-size: 20px; font-weight: 400; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="nav-mark">Velum Institute</a>
+    <ul class="nav-links">
+      <li><a href="library.html" aria-current="page">Research</a></li>
+      <li><a href="index.html#authors">Authors</a></li>
+      <li><a href="index.html#areas">Topics</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="timeline.html">Reading Room</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="nav-search-btn" onclick="document.getElementById('search').focus()">Search</button>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+  </nav>
+</header>
+
+<main>
+  <section class="lib-hero wrap">
+    <h1 class="lib-title serif">Research Library</h1>
+    <p class="lib-sub">Papers, essays, working documents, and position papers from the Institute, browsable by author, topic, type, year, and historical period.</p>
+
+    <div class="search-row">
+      <input id="search" class="search-input" type="text" placeholder="Search by title, author, or abstract…" autocomplete="off">
+      <span class="search-count" id="result-count"></span>
+    </div>
+  </section>
+
+  <div class="wrap lib-body">
+    <aside class="filters">
+      <div class="filter-group">
+        <h4>Publication Type</h4>
+        <div id="filter-type"></div>
+      </div>
+      <div class="filter-group">
+        <h4>Topic</h4>
+        <div id="filter-topic"></div>
+      </div>
+      <div class="filter-group">
+        <h4>Author</h4>
+        <div id="filter-author"></div>
+      </div>
+      <div class="filter-group">
+        <h4>Historical Period</h4>
+        <div id="filter-period"></div>
+      </div>
+      <div class="filter-group">
+        <h4>Year</h4>
+        <div id="filter-year"></div>
+      </div>
+      <button class="clear-filters" id="clear-filters">Clear all filters</button>
+    </aside>
+
+    <div class="results-list" id="results"></div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Velum Institute</h4>
+      <p style="color:var(--ivory-dim); font-size:14px; max-width:32ch; line-height:1.6;">Independent research in theology, philosophy, Christian history, and intellectual culture.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="library.html">Research Library</a></li>
+        <li><a href="index.html#areas">Topics</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="timeline.html">Historical Archive</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Institute</h4>
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#authors">Fellows</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul><li><a href="mailto:archive@velum.institute">archive@velum.institute</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Velum Institute</span>
+    <span>Independent Research</span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const state = { query: '', type: null, topic: null, author: null, period: null, year: null };
+
+  const params = new URLSearchParams(location.search);
+  if (params.get('topic')) state.topic = params.get('topic');
+  if (params.get('author')) state.author = params.get('author');
+
+  function uniqueSorted(arr) { return [...new Set(arr)].sort(); }
+
+  function renderFilterGroup(containerId, options, key, labelFn) {
+    const el = document.getElementById(containerId);
+    el.innerHTML = options.map(opt => {
+      const value = labelFn ? labelFn(opt) : opt;
+      const active = state[key] === opt ? 'active' : '';
+      return `<button class="filter-option ${active}" data-key="${key}" data-value="${opt}">
+        <span class="dot"></span>${value}
+      </button>`;
+    }).join('');
+  }
+
+  function buildFilters() {
+    renderFilterGroup('filter-type', uniqueSorted(PAPERS.map(p => p.type)), 'type');
+    renderFilterGroup('filter-topic', TOPICS.map(t => t.id), 'topic', id => getTopic(id).name);
+    renderFilterGroup('filter-author', AUTHORS.map(a => a.id), 'author', id => getAuthor(id).name);
+    renderFilterGroup('filter-period', PERIODS, 'period');
+    renderFilterGroup('filter-year', uniqueSorted(PAPERS.map(p => p.year)).reverse(), 'year');
+  }
+
+  function matchesQuery(p, q) {
+    if (!q) return true;
+    const author = getAuthor(p.authorId);
+    const hay = [p.title, p.abstract, author ? author.name : '', p.type].join(' ').toLowerCase();
+    return hay.includes(q.toLowerCase());
+  }
+
+  function applyFilters() {
+    return PAPERS.filter(p => {
+      if (state.type && p.type !== state.type) return false;
+      if (state.topic && !p.topics.includes(state.topic)) return false;
+      if (state.author && p.authorId !== state.author) return false;
+      if (state.period && p.period !== state.period) return false;
+      if (state.year && p.year !== state.year) return false;
+      if (!matchesQuery(p, state.query)) return false;
+      return true;
+    }).sort((a, b) => b.year - a.year);
+  }
+
+  function render() {
+    buildFilters();
+    const results = applyFilters();
+    const resultsEl = document.getElementById('results');
+    document.getElementById('result-count').textContent = `${results.length} ${results.length === 1 ? 'result' : 'results'}`;
+
+    if (results.length === 0) {
+      resultsEl.innerHTML = `<div class="empty-state"><strong>No matching papers</strong>Try clearing a filter or searching a different term.</div>`;
+      return;
+    }
+    resultsEl.innerHTML = results.map(paperCard).join('');
+  }
+
+  document.getElementById('search').addEventListener('input', e => {
+    state.query = e.target.value;
+    render();
+  });
+
+  document.body.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-option');
+    if (!btn) return;
+    const key = btn.dataset.key;
+    let value = btn.dataset.value;
+    if (key === 'year') value = Number(value);
+    state[key] = state[key] === value ? null : value;
+    render();
+  });
+
+  document.getElementById('clear-filters').addEventListener('click', () => {
+    state.type = null; state.topic = null; state.author = null; state.period = null; state.year = null;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

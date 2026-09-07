@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historical Archive — Velum Institute</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .tl-hero { padding: 150px 0 60px; border-bottom: 1px solid var(--line); }
+  .tl-title { font-family: var(--serif); font-size: clamp(44px, 6.5vw, 88px); font-weight: 400; margin: 0 0 20px; line-height: 1; }
+  .tl-sub { color: var(--ivory-dim); font-size: 16px; max-width: 50ch; }
+
+  .tl-nav {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 73px;
+    background: var(--ink);
+    z-index: 10;
+  }
+  .tl-nav-btn {
+    flex: 1;
+    min-width: 150px;
+    padding: 22px 20px;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--line);
+    color: var(--ivory-dim);
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .tl-nav-btn:hover { color: var(--ivory); }
+  .tl-nav-btn.active { color: var(--ivory); background: var(--ink-raised); }
+  .tl-nav-btn.active::after { content: ''; display: block; height: 2px; background: var(--cobalt-bright); margin-top: 14px; }
+  .tl-nav-btn span { display: block; font-size: 11px; color: var(--ivory-dim); margin-top: 4px; }
+
+  .tl-panel { display: none; padding: 80px 0 140px; }
+  .tl-panel.active { display: block; }
+
+  .tl-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .tl-era-title { font-family: var(--serif); font-size: clamp(34px, 4.5vw, 56px); font-weight: 400; margin: 0 0 8px; }
+  .tl-era-range { color: var(--cobalt-bright); font-size: 14px; margin-bottom: 28px; display: block; }
+  .tl-era-desc { color: var(--ivory-dim); font-size: 17px; line-height: 1.75; max-width: 56ch; }
+
+  .tl-visual { aspect-ratio: 4/3; }
+
+  .tl-figures { margin-top: 44px; }
+  .tl-figures h4 { font-size: 12px; letter-spacing: 0.05em; color: var(--ivory-dim); margin: 0 0 16px; }
+  .figure-chip { display: inline-block; font-size: 13px; border: 1px solid var(--line); padding: 8px 14px; margin: 0 8px 8px 0; }
+
+  .tl-topics { margin-top: 32px; }
+  .tl-related-papers { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); }
+
+  @media (max-width: 860px) {
+    .tl-layout { grid-template-columns: 1fr; }
+    .tl-visual { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="nav-mark">Velum Institute</a>
+    <ul class="nav-links">
+      <li><a href="library.html">Research</a></li>
+      <li><a href="index.html#authors">Authors</a></li>
+      <li><a href="index.html#areas">Topics</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="timeline.html" aria-current="page">Reading Room</a></li>
+    </ul>
+    <div class="nav-right"><button class="nav-search-btn" onclick="location.href='library.html'">Search</button></div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+  </nav>
+</header>
+
+<main>
+  <section class="tl-hero wrap">
+    <h1 class="tl-title serif">Historical Archive</h1>
+    <p class="tl-sub">A chronological path through the eras of Christian intellectual history, from apostolic testimony to contemporary research.</p>
+  </section>
+
+  <nav class="tl-nav" id="tl-nav"></nav>
+
+  <div id="tl-panels"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Velum Institute</h4>
+      <p style="color:var(--ivory-dim); font-size:14px; max-width:32ch; line-height:1.6;">Independent research in theology, philosophy, Christian history, and intellectual culture.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="library.html">Research Library</a></li>
+        <li><a href="index.html#areas">Topics</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="timeline.html">Historical Archive</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Institute</h4>
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#authors">Fellows</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul><li><a href="mailto:archive@velum.institute">archive@velum.institute</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Velum Institute</span>
+    <span>Independent Research</span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  document.getElementById('tl-nav').innerHTML = TIMELINE.map((era, i) => `
+    <button class="tl-nav-btn ${i === 0 ? 'active' : ''}" data-index="${i}">
+      ${era.era}<span>${era.range}</span>
+    </button>`).join('');
+
+  document.getElementById('tl-panels').innerHTML = TIMELINE.map((era, i) => {
+    const relatedPapers = era.topics.flatMap(papersByTopic);
+    const uniquePapers = [...new Map(relatedPapers.map(p => [p.id, p])).values()];
+    return `
+    <div class="tl-panel ${i === 0 ? 'active' : ''}" data-panel="${i}">
+      <div class="wrap tl-layout">
+        <div>
+          <span class="tl-era-range">${era.range}</span>
+          <h2 class="tl-era-title serif">${era.era}</h2>
+          <p class="tl-era-desc">${era.description}</p>
+          <div class="tl-figures">
+            <h4>Key Figures</h4>
+            ${era.figures.map(f => `<span class="figure-chip">${f}</span>`).join('')}
+          </div>
+          <div class="tl-topics">
+            <h4 style="font-size:12px; letter-spacing:0.05em; color:var(--ivory-dim); margin-bottom:16px;">Related Topics</h4>
+            ${era.topics.map(tid => {
+              const t = getTopic(tid);
+              return t ? `<a class="topic-chip" style="display:inline-block; font-size:12px; color:var(--ivory-dim); border:1px solid var(--line); padding:6px 12px; margin:0 8px 8px 0;" href="topic.html?id=${t.id}">${t.name}</a>` : '';
+            }).join('')}
+          </div>
+        </div>
+        <div class="tl-visual marble-fragment"></div>
+      </div>
+      ${uniquePapers.length ? `
+      <div class="wrap tl-related-papers">
+        <p class="section-kicker">Research from this period</p>
+        ${uniquePapers.map(paperCard).join('')}
+      </div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('tl-nav').addEventListener('click', e => {
+    const btn = e.target.closest('.tl-nav-btn');
+    if (!btn) return;
+    const idx = btn.dataset.index;
+    document.querySelectorAll('.tl-nav-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.tl-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === idx));
+  });
+</script>
+</body>
+</html>

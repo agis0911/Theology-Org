@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velum Institute — Independent Research in Theology &amp; Philosophy</title>
+<meta name="description" content="Independent research in theology, philosophy, Christian history, and intellectual culture.">
+<link rel="stylesheet" href="styles.css">
+<style>
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-marble {
+    position: absolute;
+    top: -8%;
+    right: -6%;
+    width: 46%;
+    height: 108%;
+    z-index: 1;
+    clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 92%);
+  }
+
+  .hero-marble svg { width: 100%; height: 100%; display: block; }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 160px var(--gutter) 72px;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--cobalt-bright);
+    margin-bottom: 28px;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(64px, 12vw, 168px);
+    line-height: 0.88;
+    margin: 0;
+    max-width: 15ch;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+    margin-top: 48px;
+    max-width: 1440px;
+  }
+
+  .hero-statement {
+    max-width: 420px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ivory-dim);
+  }
+
+  .hero-scroll {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ivory-dim);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 860px) {
+    .hero-marble { width: 62%; opacity: 0.5; }
+    .hero-inner { padding-top: 120px; }
+    .hero-foot { flex-direction: column; align-items: flex-start; gap: 20px; }
+  }
+
+  /* ---------- Research teaser rows ---------- */
+  .paper-list { display: flex; flex-direction: column; }
+
+  .paper-row {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    transition: opacity 0.15s ease;
+  }
+  .paper-list a.paper-row:last-child { border-bottom: 1px solid var(--line); }
+
+  .paper-row-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .paper-row-title {
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .paper-row-desc {
+    display: none;
+  }
+
+  .paper-row-foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    text-align: right;
+  }
+
+  .paper-row-arrow {
+    font-size: 13px;
+    color: var(--ivory-dim);
+  }
+
+  .paper-row:hover { opacity: 0.72; }
+  .paper-row:hover .paper-row-arrow { color: var(--cobalt-bright); }
+
+  @media (max-width: 760px) {
+    .paper-row { grid-template-columns: 1fr; gap: 10px; }
+    .paper-row-foot { align-items: flex-start; text-align: left; }
+  }
+
+  /* ---------- Areas grid ---------- */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .area-cell {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 40px 28px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.15s ease;
+  }
+  .area-cell:hover { background: var(--ink-raised); }
+
+  .area-cell h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 22px;
+    margin: 0;
+  }
+
+  .area-cell .label { color: var(--ivory-dim); }
+  .area-cell:hover .label { color: var(--cobalt-bright); }
+
+  @media (max-width: 900px) { .areas-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .areas-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- Featured paper ---------- */
+  .featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .featured-visual {
+    aspect-ratio: 4/5;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-copy .label { margin-bottom: 20px; display: block; }
+
+  .featured-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.4vw, 46px);
+    font-weight: 400;
+    line-height: 1.08;
+    margin: 0 0 22px;
+  }
+
+  .featured-abstract {
+    color: var(--ivory-dim);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 46ch;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .featured { grid-template-columns: 1fr; }
+    .featured-visual { order: -1; aspect-ratio: 16/9; }
+  }
+
+  /* ---------- Authors ---------- */
+  .authors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .author-cell {
+    background: var(--ink);
+    padding: 36px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: background 0.15s ease;
+  }
+  .author-cell:hover { background: var(--ink-raised); }
+
+  .author-name { font-family: var(--serif); font-size: 21px; margin: 0; }
+  .author-role { color: var(--ivory-dim); font-size: 13px; }
+
+  .author-interests {
+    font-size: 13px;
+    color: var(--ivory-dim);
+    line-height: 1.6;
+  }
+
+  .author-link { font-size: 13px; margin-top: auto; }
+
+  @media (max-width: 900px) { .authors-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .authors-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- Projects ---------- */
+  .project-block {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 56px 0;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+  }
+
+  .project-title { font-family: var(--serif); font-size: clamp(26px, 3vw, 38px); margin: 0 0 6px; font-weight: 400; }
+  .project-span { color: var(--cobalt-bright); font-size: 13px; letter-spacing: 0.04em; margin-bottom: 24px; display: block; }
+  .project-desc { color: var(--ivory-dim); font-size: 16px; line-height: 1.7; max-width: 56ch; }
+
+  .project-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    border-left: 1px solid var(--line);
+    padding-left: 40px;
+  }
+
+  .project-stat-value { font-family: var(--serif); font-size: 32px; display: block; line-height: 1; }
+  .project-stat-label { color: var(--ivory-dim); font-size: 12px; letter-spacing: 0.05em; }
+
+  @media (max-width: 760px) {
+    .project-block { grid-template-columns: 1fr; }
+    .project-stats { border-left: none; padding-left: 0; flex-direction: row; flex-wrap: wrap; }
+  }
+
+  /* ---------- Institute statement ---------- */
+  .statement {
+    max-width: 900px;
+  }
+
+  .statement p {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.6vw, 32px);
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--marble-1);
+    margin: 0 0 28px;
+  }
+
+  .statement-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+    max-width: 1100px;
+  }
+
+  .statement-meta h4 { font-size: 12px; letter-spacing: 0.05em; color: var(--cobalt-bright); margin: 0 0 10px; font-weight: 500; }
+  .statement-meta p { font-family: var(--sans); font-size: 14px; color: var(--ivory-dim); line-height: 1.6; font-weight: 400; }
+
+  @media (max-width: 760px) { .statement-meta { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="nav-mark">Velum Institute</a>
+    <ul class="nav-links">
+      <li><a href="library.html">Research</a></li>
+      <li><a href="index.html#authors">Authors</a></li>
+      <li><a href="index.html#areas">Topics</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="timeline.html">Reading Room</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="nav-search-btn" onclick="location.href='library.html'">Search</button>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 01 — HERO -->
+  <section class="hero">
+    <div class="hero-marble" aria-hidden="true">
+      <svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mgrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#efece4"/>
+            <stop offset="55%" stop-color="#c3c0b6"/>
+            <stop offset="100%" stop-color="#94918720"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="500" height="700" fill="#0a0a0a"/>
+        <!-- abstracted classical bust / column fragment -->
+        <ellipse cx="330" cy="120" rx="105" ry="130" fill="url(#mgrad)"/>
+        <rect x="250" y="220" width="160" height="420" fill="url(#mgrad)"/>
+        <path d="M240 250 Q330 210 420 250 L420 640 Q330 610 240 640 Z" fill="#b9b6ac" opacity="0.55"/>
+        <rect x="150" y="600" width="330" height="18" fill="#e8e5dc" opacity="0.7"/>
+        <circle cx="300" cy="95" r="42" fill="#0a0a0a" opacity="0.18"/>
+        <path d="M270 60 q30 -34 60 0" stroke="#0a0a0a" stroke-width="4" fill="none" opacity="0.25"/>
+      </svg>
+    </div>
+
+    <div class="hero-inner wrap">
+      <p class="hero-eyebrow">VELUM — RESEARCH INSTITUTE</p>
+      <h1 class="hero-title">Theology<br>&amp; Reason</h1>
+      <div class="hero-foot">
+        <p class="hero-statement">Independent research in theology, philosophy, Christian history, and intellectual culture.</p>
+        <span class="hero-scroll">Scroll to enter the archive ↓</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — THE RESEARCH -->
+  <section class="section wrap" id="research">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">The Research</p>
+        <h2 class="section-title serif">Recent publications</h2>
+      </div>
+      <p class="section-desc">Peer-considered papers, essays, and working documents from the Institute's fellows, spanning doctrine, philosophy, and ecclesial history.</p>
+    </div>
+
+    <div class="paper-list" id="recent-papers"></div>
+
+    <div style="margin-top:40px;">
+      <a href="library.html" class="text-link">View the full research library →</a>
+    </div>
+  </section>
+
+  <!-- 03 — RESEARCH AREAS -->
+  <section class="section" id="areas">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Areas of Inquiry</p>
+          <h2 class="section-title serif">Fields of research</h2>
+        </div>
+      </div>
+    </div>
+    <div class="areas-grid" id="areas-grid"></div>
+  </section>
+
+  <!-- 04 — FEATURED PAPER -->
+  <section class="section wrap" id="featured">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Featured</p>
+        <h2 class="section-title serif">This quarter's publication</h2>
+      </div>
+    </div>
+    <div class="featured" id="featured-block"></div>
+  </section>
+
+  <!-- 05 — AUTHORS -->
+  <section class="section wrap" id="authors">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Fellows</p>
+        <h2 class="section-title serif">Researchers</h2>
+      </div>
+    </div>
+    <div class="authors-grid" id="authors-grid"></div>
+  </section>
+
+  <!-- 06 — CURRENT PROJECTS -->
+  <section class="section wrap" id="projects">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Current Projects</p>
+        <h2 class="section-title serif">Ongoing initiatives</h2>
+      </div>
+    </div>
+    <div id="projects-list"></div>
+  </section>
+
+  <!-- 07 — THE INSTITUTE -->
+  <section class="section wrap" id="about">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">The Institute</p>
+        <h2 class="section-title serif">About Velum</h2>
+      </div>
+    </div>
+    <div class="statement">
+      <p>Velum Institute is an independent research body devoted to the serious study of Christian theology in dialogue with philosophy, history, and the broader intellectual tradition it inherited from antiquity.</p>
+      <p>Our work proceeds from the conviction that doctrine has a history, that reason and revelation are not adversaries, and that the questions raised by the earliest councils remain unfinished business for contemporary thought.</p>
+      <div class="statement-meta">
+        <div>
+          <h4>Who we are</h4>
+          <p>A small, independent fellowship of researchers working across theology, philosophy, and Church history, unaffiliated with any single ecclesial body.</p>
+        </div>
+        <div>
+          <h4>What we research</h4>
+          <p>Doctrine, tradition, scripture, ethics, and the historical development of Christian thought from the apostolic era to the present.</p>
+        </div>
+        <div>
+          <h4>Our method</h4>
+          <p>Close historical reading paired with philosophical analysis, published as papers, essays, and working documents open to scrutiny and revision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Velum Institute</h4>
+      <p style="color:var(--ivory-dim); font-size:14px; max-width:32ch; line-height:1.6;">Independent research in theology, philosophy, Christian history, and intellectual culture.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="library.html">Research Library</a></li>
+        <li><a href="index.html#areas">Topics</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="timeline.html">Historical Archive</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Institute</h4>
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#authors">Fellows</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:archive@velum.institute">archive@velum.institute</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Velum Institute</span>
+    <span>Independent Research</span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  // 02 Recent papers (most recent 3)
+  const recent = [...PAPERS].sort((a,b) => b.year - a.year).slice(0, 3);
+  document.getElementById('recent-papers').innerHTML = recent.map(paperCard).join('');
+
+  // 03 Areas grid
+  document.getElementById('areas-grid').innerHTML = AREAS.map(area => {
+    const count = TOPICS.filter(t => t.group === area).reduce((acc, t) => acc + papersByTopic(t.id).length, 0);
+    const firstTopic = TOPICS.find(t => t.group === area);
+    const href = firstTopic ? `topic.html?id=${firstTopic.id}` : 'library.html';
+    return `<a class="area-cell" href="${href}">
+      <h3 class="serif">${area}</h3>
+      <span class="label">${count} ${count === 1 ? 'paper' : 'papers'}</span>
+    </a>`;
+  }).join('');
+
+  // 04 Featured paper — most recent
+  const featured = recent[0];
+  const fAuthor = getAuthor(featured.authorId);
+  document.getElementById('featured-block').innerHTML = `
+    <div class="featured-visual marble-fragment"></div>
+    <div class="featured-copy">
+      <span class="label blue">${featured.type} · ${featured.year}</span>
+      <h3 class="featured-title serif">${featured.title}</h3>
+      <p class="featured-abstract">${featured.abstract}</p>
+      <p class="label" style="margin-bottom:24px; display:block;">${fAuthor ? fAuthor.name : ''}</p>
+      <a class="btn" href="paper.html?id=${featured.id}">Read paper →</a>
+    </div>`;
+
+  // 05 Authors
+  document.getElementById('authors-grid').innerHTML = AUTHORS.map(a => `
+    <div class="author-cell">
+      <div>
+        <h3 class="author-name serif">${a.name}</h3>
+        <p class="author-role">${a.title}</p>
+      </div>
+      <p class="author-interests">${a.interests.join(' · ')}</p>
+      <a class="text-link author-link" href="author.html?id=${a.id}">View profile →</a>
+    </div>`).join('');
+
+  // 06 Projects
+  document.getElementById('projects-list').innerHTML = PROJECTS.map(p => `
+    <div class="project-block">
+      <div>
+        <h3 class="project-title serif">${p.title}</h3>
+        <span class="project-span">${p.span}</span>
+        <p class="project-desc">${p.description}</p>
+      </div>
+      <div class="project-stats">
+        <div><span class="project-stat-value serif">${p.researcherIds.length}</span><span class="project-stat-label">Researchers</span></div>
+        <div><span class="project-stat-value serif">${p.publicationCount}</span><span class="project-stat-label">Publications</span></div>
+        <div><span class="project-stat-value serif">${p.status}</span><span class="project-stat-label">Status</span></div>
+      </div>
+    </div>`).join('');
+</script>
+</body>
+</html>

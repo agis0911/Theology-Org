@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Author — Velum Institute</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .author-hero {
+    padding: 150px 0 80px;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 56px;
+    align-items: start;
+  }
+  .breadcrumb { font-size: 13px; color: var(--ivory-dim); margin-bottom: 32px; grid-column: 1 / -1; }
+  .breadcrumb a:hover { color: var(--ivory); }
+
+  .author-hero-name { font-family: var(--serif); font-size: clamp(40px, 6vw, 76px); font-weight: 400; margin: 0 0 12px; }
+  .author-hero-role { color: var(--cobalt-bright); font-size: 14px; letter-spacing: 0.03em; margin-bottom: 32px; }
+  .author-bio { font-size: 17px; line-height: 1.75; color: var(--ivory-dim); max-width: 60ch; }
+
+  .author-side { border-left: 1px solid var(--line); padding-left: 36px; }
+  .author-side h4 { font-size: 12px; letter-spacing: 0.05em; color: var(--ivory-dim); margin: 0 0 16px; }
+  .interest-chip { display: inline-block; font-size: 12px; color: var(--ivory-dim); border: 1px solid var(--line); padding: 6px 12px; margin: 0 8px 8px 0; }
+  .stat-row { display: flex; gap: 32px; margin-top: 32px; }
+  .stat-value { font-family: var(--serif); font-size: 30px; display: block; }
+  .stat-label { font-size: 12px; color: var(--ivory-dim); }
+
+  @media (max-width: 860px) {
+    .author-hero { grid-template-columns: 1fr; }
+    .author-side { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 28px; }
+  }
+
+  .pubs-section { padding: 80px 0 140px; }
+  .projects-mini { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+  .project-mini-card { border: 1px solid var(--line); padding: 28px; }
+  .project-mini-card h4 { font-family: var(--serif); font-size: 20px; font-weight: 400; margin: 0 0 10px; }
+  .project-mini-card p { color: var(--ivory-dim); font-size: 14px; line-height: 1.6; }
+  @media (max-width: 700px) { .projects-mini { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="nav-mark">Velum Institute</a>
+    <ul class="nav-links">
+      <li><a href="library.html">Research</a></li>
+      <li><a href="index.html#authors" aria-current="page">Authors</a></li>
+      <li><a href="index.html#areas">Topics</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="timeline.html">Reading Room</a></li>
+    </ul>
+    <div class="nav-right"><button class="nav-search-btn" onclick="location.href='library.html'">Search</button></div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+  </nav>
+</header>
+
+<main>
+  <section class="author-hero wrap">
+    <p class="breadcrumb"><a href="index.html#authors">Fellows</a> / <span id="crumb-name"></span></p>
+    <div>
+      <h1 class="author-hero-name serif" id="author-name"></h1>
+      <p class="author-hero-role" id="author-role"></p>
+      <p class="author-bio" id="author-bio"></p>
+    </div>
+    <div class="author-side">
+      <h4>Research Interests</h4>
+      <div id="author-interests"></div>
+      <div class="stat-row">
+        <div><span class="stat-value serif" id="stat-pubs"></span><span class="stat-label">Publications</span></div>
+        <div><span class="stat-value serif" id="stat-projects"></span><span class="stat-label">Projects</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pubs-section wrap">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Selected Publications</p>
+        <h2 class="section-title serif">Papers &amp; essays</h2>
+      </div>
+    </div>
+    <div id="author-papers"></div>
+
+    <div id="author-projects-wrap" style="margin-top:80px;">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Projects</p>
+          <h2 class="section-title serif">Associated projects</h2>
+        </div>
+      </div>
+      <div class="projects-mini" id="author-projects"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Velum Institute</h4>
+      <p style="color:var(--ivory-dim); font-size:14px; max-width:32ch; line-height:1.6;">Independent research in theology, philosophy, Christian history, and intellectual culture.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="library.html">Research Library</a></li>
+        <li><a href="index.html#areas">Topics</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="timeline.html">Historical Archive</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Institute</h4>
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#authors">Fellows</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul><li><a href="mailto:archive@velum.institute">archive@velum.institute</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Velum Institute</span>
+    <span>Independent Research</span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const id = new URLSearchParams(location.search).get('id');
+  const author = getAuthor(id) || AUTHORS[0];
+  const papers = papersByAuthor(author.id);
+  const projects = PROJECTS.filter(p => p.researcherIds.includes(author.id));
+
+  document.getElementById('page-title').textContent = `${author.name} — Velum Institute`;
+  document.getElementById('crumb-name').textContent = author.name;
+  document.getElementById('author-name').textContent = author.name;
+  document.getElementById('author-role').textContent = author.title;
+  document.getElementById('author-bio').textContent = author.bio;
+  document.getElementById('author-interests').innerHTML = author.interests.map(i => `<span class="interest-chip">${i}</span>`).join('');
+  document.getElementById('stat-pubs').textContent = papers.length;
+  document.getElementById('stat-projects').textContent = projects.length;
+
+  document.getElementById('author-papers').innerHTML = papers.length
+    ? papers.map(paperCard).join('')
+    : `<p style="color:var(--ivory-dim);">No publications listed yet.</p>`;
+
+  if (projects.length === 0) {
+    document.getElementById('author-projects-wrap').style.display = 'none';
+  } else {
+    document.getElementById('author-projects').innerHTML = projects.map(p => `
+      <a class="project-mini-card" href="index.html#projects">
+        <h4 class="serif">${p.title}</h4>
+        <p>${p.span} · ${p.status}</p>
+      </a>`).join('');
+  }
+</script>
+</body>
+</html>

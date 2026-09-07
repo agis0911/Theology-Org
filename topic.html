@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Topic — Velum Institute</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .topic-hero { padding: 150px 0 70px; border-bottom: 1px solid var(--line); }
+  .breadcrumb { font-size: 13px; color: var(--ivory-dim); margin-bottom: 32px; }
+  .breadcrumb a:hover { color: var(--ivory); }
+  .topic-group { color: var(--cobalt-bright); font-size: 13px; letter-spacing: 0.04em; margin-bottom: 20px; }
+  .topic-title { font-family: var(--serif); font-size: clamp(44px, 7vw, 96px); font-weight: 400; margin: 0; }
+
+  .network-row { display: flex; gap: 40px; margin-top: 44px; flex-wrap: wrap; }
+  .network-stat { display: flex; flex-direction: column; }
+  .network-stat b { font-family: var(--serif); font-size: 30px; font-weight: 400; }
+  .network-stat span { font-size: 12px; color: var(--ivory-dim); }
+
+  .author-mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 40px; }
+  .author-mini { background: var(--ink); padding: 28px; }
+  .author-mini h4 { font-family: var(--serif); font-size: 18px; margin: 0 0 6px; font-weight: 400; }
+  .author-mini p { font-size: 13px; color: var(--ivory-dim); margin: 0 0 14px; }
+
+  @media (max-width: 760px) { .author-mini-grid { grid-template-columns: 1fr; } }
+
+  .related-chips { margin-top: 20px; }
+  .related-chip { display: inline-block; font-size: 12px; color: var(--ivory-dim); border: 1px solid var(--line); padding: 6px 12px; margin: 0 8px 8px 0; }
+  .related-chip:hover { color: var(--cobalt-bright); border-color: var(--cobalt-bright); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="nav-mark">Velum Institute</a>
+    <ul class="nav-links">
+      <li><a href="library.html">Research</a></li>
+      <li><a href="index.html#authors">Authors</a></li>
+      <li><a href="index.html#areas" aria-current="page">Topics</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="timeline.html">Reading Room</a></li>
+    </ul>
+    <div class="nav-right"><button class="nav-search-btn" onclick="location.href='library.html'">Search</button></div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
+  </nav>
+</header>
+
+<main>
+  <section class="topic-hero wrap">
+    <p class="breadcrumb"><a href="index.html#areas">Topics</a> / <span id="crumb-name"></span></p>
+    <p class="topic-group" id="topic-group"></p>
+    <h1 class="topic-title serif" id="topic-name"></h1>
+    <div class="network-row">
+      <div class="network-stat"><b id="stat-papers"></b><span>Papers</span></div>
+      <div class="network-stat"><b id="stat-authors"></b><span>Authors</span></div>
+      <div class="network-stat"><b id="stat-projects"></b><span>Projects</span></div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Papers</p>
+        <h2 class="section-title serif">On this topic</h2>
+      </div>
+    </div>
+    <div id="topic-papers"></div>
+  </section>
+
+  <section class="section wrap" id="authors-wrap">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Authors</p>
+        <h2 class="section-title serif">Who writes on this</h2>
+      </div>
+    </div>
+    <div class="author-mini-grid" id="topic-authors"></div>
+  </section>
+
+  <section class="section wrap" id="related-wrap">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Related Figures &amp; Topics</p>
+        <h2 class="section-title serif">Explore further</h2>
+      </div>
+    </div>
+    <div class="related-chips" id="related-topics"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Velum Institute</h4>
+      <p style="color:var(--ivory-dim); font-size:14px; max-width:32ch; line-height:1.6;">Independent research in theology, philosophy, Christian history, and intellectual culture.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="library.html">Research Library</a></li>
+        <li><a href="index.html#areas">Topics</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="timeline.html">Historical Archive</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Institute</h4>
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#authors">Fellows</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul><li><a href="mailto:archive@velum.institute">archive@velum.institute</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Velum Institute</span>
+    <span>Independent Research</span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const id = new URLSearchParams(location.search).get('id');
+  const topic = getTopic(id) || TOPICS[0];
+  const papers = papersByTopic(topic.id);
+  const authors = authorsByTopic(topic.id);
+  const projects = projectsByTopic(topic.id);
+
+  document.getElementById('page-title').textContent = `${topic.name} — Velum Institute`;
+  document.getElementById('crumb-name').textContent = topic.name;
+  document.getElementById('topic-group').textContent = topic.group;
+  document.getElementById('topic-name').textContent = topic.name;
+  document.getElementById('stat-papers').textContent = papers.length;
+  document.getElementById('stat-authors').textContent = authors.length;
+  document.getElementById('stat-projects').textContent = projects.length;
+
+  document.getElementById('topic-papers').innerHTML = papers.length
+    ? papers.map(paperCard).join('')
+    : `<p style="color:var(--ivory-dim);">No papers on this topic yet.</p>`;
+
+  if (authors.length === 0) {
+    document.getElementById('authors-wrap').style.display = 'none';
+  } else {
+    document.getElementById('topic-authors').innerHTML = authors.map(a => `
+      <a class="author-mini" href="author.html?id=${a.id}">
+        <h4>${a.name}</h4>
+        <p>${a.title}</p>
+        <span class="text-link">View profile →</span>
+      </a>`).join('');
+  }
+
+  // Related topics: other topics that co-occur on the same papers
+  const relatedIds = new Set();
+  papers.forEach(p => p.topics.forEach(t => { if (t !== topic.id) relatedIds.add(t); }));
+  const relatedTopics = [...relatedIds].map(getTopic).filter(Boolean);
+
+  if (relatedTopics.length === 0) {
+    document.getElementById('related-wrap').style.display = 'none';
+  } else {
+    document.getElementById('related-topics').innerHTML = relatedTopics.map(t =>
+      `<a class="related-chip" href="topic.html?id=${t.id}">${t.name}</a>`).join('');
+  }
+</script>
+</body>
+</html>
